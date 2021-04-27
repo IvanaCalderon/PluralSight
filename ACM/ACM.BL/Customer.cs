@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ACM.BL
 {
@@ -7,13 +8,23 @@ namespace ACM.BL
         public int CustomerId { get; private set; }
         public string FirstName { get; set; }
         public string EmailAddress { get; set; }
-        
+        public static int InstanceCount { get; set; }
+
 
         public string FullName
         {
             get
             {
-                return FirstName + ", " + LastName;
+                string fullName = LastName;
+                if(!string.IsNullOrWhiteSpace(FirstName))
+                {
+                    if(!string.IsNullOrWhiteSpace(fullName))
+                    {
+                        fullName += ", ";
+                    }
+                    fullName += FirstName;
+                }
+                return fullName;
             }
         }
 
@@ -29,6 +40,30 @@ namespace ACM.BL
                 _lastName = value;
 
             }
+        }
+
+        public Customer Retrieve(int customerId)
+        {
+            return new Customer();
+        }
+
+        public List<Customer> Retrieve()
+        {
+            return new List<Customer>();
+        }
+
+        public bool Save()
+        {
+            return true;
+        }
+
+        public bool Validate()
+        {
+            var isValid = true;
+            if (string.IsNullOrWhiteSpace(LastName)) isValid = false;
+            if (string.IsNullOrWhiteSpace(EmailAddress)) isValid = false;
+
+            return isValid;
         }
     }
 }
